@@ -1,4 +1,4 @@
-const WP_GRAPHQL_URL = 'https://astrologybits.com/graphql';
+const WP_GRAPHQL_URL = 'https://wp.astrologybits.com/graphql';
 
 async function fetchGraphQL(query, variables = {}) {
   console.log('🔍 Fetching from:', WP_GRAPHQL_URL);
