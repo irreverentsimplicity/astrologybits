@@ -1,27 +1,20 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getAllPages, getAllPosts, getSlugFromUri } from '../lib/wordpress';
+import { makeLinksRelative } from '../lib/utils';
 
 export async function getStaticPaths() {
-  // Fetch all content from WordPress
   const [pages, posts] = await Promise.all([
     getAllPages(),
     getAllPosts()
   ]);
   
-  // Combine pages and posts
   const allContent = [...pages, ...posts];
   
   console.log(`\n📄 Generating ${allContent.length} static pages...\n`);
   
-  // DEBUG: Log each page being generated
-  console.log('🔍 Generated routes:');
-  
-  // Create a route for each piece of content
-  const paths = allContent.map(item => {
+  return allContent.map(item => {
     const slug = getSlugFromUri(item.uri);
-    
-    console.log(`  /${slug} ← from WordPress URI: ${item.uri} (${item.title})`);
     
     return {
       params: { 
@@ -30,16 +23,15 @@ export async function getStaticPaths() {
       props: { page: item }
     };
   });
-  
-  return paths;
 }
 
 const { page } = Astro.props;
+const processedContent = makeLinksRelative(page.content);
 ---
 
 <BaseLayout page={page}>
   <article class="wp-content">
     <h1 set:html={page.title} />
-    <div set:html={page.content} />
+    <div set:html={processedContent} />
   </article>
 </BaseLayout>

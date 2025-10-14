@@ -1,10 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getAllPages } from '../lib/wordpress';
+import { makeLinksRelative } from '../lib/utils';
 
 const pages = await getAllPages();
 
-// Find homepage
 const homepage = pages.find(p => p.slug === 'welcome') 
                || pages.find(p => p.uri === '/') 
                || pages[0];
@@ -13,9 +13,9 @@ if (!homepage) {
   throw new Error('Could not find homepage!');
 }
 
-console.log('🏠 Using homepage:', homepage.title, '(slug:', homepage.slug + ')');
+const processedContent = makeLinksRelative(homepage.content);
 ---
 
 <BaseLayout page={homepage}>
-  <div class="wp-content" set:html={homepage.content} />
+  <div class="wp-content" set:html={processedContent} />
 </BaseLayout>
