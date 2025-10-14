@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getAllPages, getAllPosts, getSlugFromUri } from '../lib/wordpress';
+
+export async function getStaticPaths() {
+  // Fetch all content from WordPress
+  const [pages, posts] = await Promise.all([
+    getAllPages(),
+    getAllPosts()
+  ]);
+  
+  // Combine pages and posts
+  const allContent = [...pages, ...posts];
+  
+  console.log(`\n📄 Generating ${allContent.length} static pages...\n`);
+  
+  // Create a route for each piece of content
+  return allContent.map(item => {
+    const slug = getSlugFromUri(item.uri);
+    
+    return {
+      params: { 
+        slug: slug === 'index' ? undefined : slug 
+      },
+      props: { page: item }
+    };
+  });
+}
+
+const { page } = Astro.props;
+---
+
+<BaseLayout page={page}>
+  <article class="wp-content">
+    <h1 set:html={page.title} />
+    <div set:html={page.content} />
+  </article>
+</BaseLayout>
