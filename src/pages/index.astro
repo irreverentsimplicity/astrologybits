@@ -5,13 +5,15 @@ import { getAllPages } from '../lib/wordpress';
 const pages = await getAllPages();
 
 // Find homepage
-const homepage = pages.find(p => p.slug === 'home') 
+const homepage = pages.find(p => p.slug === 'welcome') 
                || pages.find(p => p.uri === '/') 
                || pages[0];
 
 if (!homepage) {
   throw new Error('Could not find homepage!');
 }
+
+console.log('🏠 Using homepage:', homepage.title, '(slug:', homepage.slug + ')');
 ---
 
 <BaseLayout page={homepage}>

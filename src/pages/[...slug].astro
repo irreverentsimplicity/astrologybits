@@ -14,9 +14,14 @@ export async function getStaticPaths() {
   
   console.log(`\n📄 Generating ${allContent.length} static pages...\n`);
   
+  // DEBUG: Log each page being generated
+  console.log('🔍 Generated routes:');
+  
   // Create a route for each piece of content
-  return allContent.map(item => {
+  const paths = allContent.map(item => {
     const slug = getSlugFromUri(item.uri);
+    
+    console.log(`  /${slug} ← from WordPress URI: ${item.uri} (${item.title})`);
     
     return {
       params: { 
@@ -25,6 +30,8 @@ export async function getStaticPaths() {
       props: { page: item }
     };
   });
+  
+  return paths;
 }
 
 const { page } = Astro.props;

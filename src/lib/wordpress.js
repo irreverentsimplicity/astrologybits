@@ -36,45 +36,61 @@ async function fetchGraphQL(query, variables = {}) {
 
 // Get all pages with Yoast SEO data
 export async function getAllPages() {
-  const query = `
-    query GetAllPages {
-      pages(first: 1000) {
-        nodes {
-          id
-          databaseId
-          title
-          slug
-          uri
-          content
-          date
-          modified
-          seo {
+  let allPages = [];
+  let hasNextPage = true;
+  let endCursor = null;
+
+  // Fetch all pages with pagination
+  while (hasNextPage) {
+    const query = `
+      query GetAllPages($after: String) {
+        pages(first: 100, after: $after, where: {status: PUBLISH}) {
+          pageInfo {
+            hasNextPage
+            endCursor
+          }
+          nodes {
+            id
+            databaseId
             title
-            metaDesc
-            canonical
-            opengraphTitle
-            opengraphDescription
-            opengraphImage {
-              sourceUrl
-            }
-            twitterTitle
-            twitterDescription
-            schema {
-              raw
+            slug
+            uri
+            content
+            date
+            modified
+            seo {
+              title
+              metaDesc
+              canonical
+              opengraphTitle
+              opengraphDescription
+              opengraphImage {
+                sourceUrl
+              }
+              twitterTitle
+              twitterDescription
+              schema {
+                raw
+              }
             }
           }
         }
       }
-    }
-  `;
+    `;
 
-  const data = await fetchGraphQL(query);
-  const pages = data.pages.nodes;
+    const data = await fetchGraphQL(query, { after: endCursor });
+    
+    allPages = [...allPages, ...data.pages.nodes];
+    hasNextPage = data.pages.pageInfo.hasNextPage;
+    endCursor = data.pages.pageInfo.endCursor;
+    
+    console.log(`  Fetched batch: ${data.pages.nodes.length} pages (total so far: ${allPages.length})`);
+  }
+
+  console.log(`\n✓ Fetched ${allPages.length} total pages from WordPress`);
   
-  console.log(`✓ Fetched ${pages.length} pages from WordPress`);
-  
-  // Filter out pages with null content
-  const validPages = pages.filter(page => {
+  // Filter out pages without content
+  const validPages = allPages.filter(page => {
     if (!page.content) {
       console.warn(`⚠️  Skipping page "${page.title}" - no content`);
       return false;
@@ -82,7 +98,7 @@ export async function getAllPages() {
     return true;
   });
   
-  console.log(`✓ ${validPages.length} pages have content`);
+  console.log(`✓ ${validPages.length} pages have content\n`);
   return validPages;
 }
 
@@ -140,5 +156,8 @@ export async function getAllPosts() {
 
 // Helper to clean WordPress URLs
 export function getSlugFromUri(uri) {
-  return uri.replace(/^\/|\/$/g, '') || 'index';
+  // Remove only the leading slash, keep trailing slash
+  const cleaned = uri.replace(/^\//, '');
+  // If it's empty or just 'index', return that
+  return cleaned || 'index';
 }
