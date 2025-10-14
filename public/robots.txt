@@ -1,0 +1,15 @@
+# Allow all crawlers
+User-agent: *
+Allow: /
+
+# Block WordPress backend (even though it's on subdomain)
+Disallow: /wp-admin/
+Disallow: /wp-includes/
+Disallow: /wp-content/plugins/
+Disallow: /wp-content/cache/
+
+# Sitemap
+Sitemap: https://astrologybits.com/sitemap-index.xml
+
+# Crawl delay (be nice to servers)
+Crawl-delay: 1

@@ -1,0 +1,57 @@
+# Astrology Bits - The Astrology of Love
+# https://astrologybits.com
+
+## About
+Astrology Bits provides comprehensive Western astrology content including zodiac sign compatibility, astrological houses interpretations, planetary positions and meanings, and love and relationship astrology.
+
+## Main Sections
+
+### Zodiac Signs
+Complete interpretations for all 12 zodiac signs:
+- Aries: https://astrologybits.com/astrological-signs/aries/
+- Taurus: https://astrologybits.com/astrological-signs/taurus/
+- Gemini: https://astrologybits.com/astrological-signs/gemini/
+- Cancer: https://astrologybits.com/astrological-signs/cancer/
+- Leo: https://astrologybits.com/astrological-signs/leo/
+- Virgo: https://astrologybits.com/astrological-signs/virgo/
+- Libra: https://astrologybits.com/astrological-signs/libra/
+- Scorpio: https://astrologybits.com/astrological-signs/scorpio/
+- Sagittarius: https://astrologybits.com/astrological-signs/sagittarius/
+- Capricorn: https://astrologybits.com/astrological-signs/capricorn/
+- Aquarius: https://astrologybits.com/astrological-signs/aquarius/
+- Pisces: https://astrologybits.com/astrological-signs/pisces/
+
+### Love & Compatibility
+Detailed compatibility analysis for all zodiac sign combinations:
+https://astrologybits.com/the-astrology-of-love/
+
+Individual sign love profiles:
+- Aries Love: https://astrologybits.com/the-astrology-of-love/aries-love/
+- Taurus Love: https://astrologybits.com/the-astrology-of-love/taurus-love/
+- (All 12 signs available)
+
+### Astrological Houses
+Complete guide to all 12 astrological houses:
+https://astrologybits.com/astrological-houses/first-house/
+(First through Twelfth house pages available)
+
+### Planets in Astrology
+Interpretations for all major planets:
+- Sun, Moon, Mercury, Venus, Mars, Jupiter, Saturn, Uranus, Neptune, Pluto
+- Available in all signs and houses
+- Example: https://astrologybits.com/planets-in-astrology/venus/venus-in-scorpio/
+
+## Content Focus
+- Western astrology tradition
+- Natal chart interpretation
+- Relationship compatibility analysis
+- Planetary transits and aspects
+- Astrological houses and their meanings
+
+## Use Cases
+This content is useful for:
+- Learning about zodiac sign characteristics
+- Understanding relationship compatibility
+- Interpreting natal chart placements
+- Exploring planetary influences
+- General astrology education
