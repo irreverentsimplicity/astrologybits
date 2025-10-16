@@ -17,7 +17,7 @@ const title = seo.title || page.title || 'Astrology Bits - Love compatibility, d
 // Set description with REQUIRED fallback
 const description = seo.metaDesc || 
   (isHomepage 
-    ? 'Love compatibility using traditional and AI assited astrological approaches. Sign by sign descriptions with advice and best strategies. '
+    ? 'Love compatibility using traditional and AI assisted astrological approaches. Sign by sign descriptions with advice and best strategies. '
     : 'Explore astrology insights and love compatibility scores at Astrology Bits.'
   );
 
@@ -92,8 +92,40 @@ if (seo.schema?.raw) {
     h2 { font-size: 1.8rem; margin: 1.5rem 0 0.5rem; }
     h3 { font-size: 1.4rem; margin: 1.5rem 0 0.5rem; }
     
-    a { color: #2980b9; text-decoration: none; }
-    a:hover { text-decoration: underline; }
+    /* WCAG AA compliant link colors with !important to override WordPress */
+    a { 
+      color: #0d3c61 !important; 
+      text-decoration: none; 
+    }
+    
+    a:hover { 
+      color: #0a2d47 !important;
+      text-decoration: underline; 
+    }
+    
+    /* Ensure all WordPress content links use our accessible color */
+    .wp-content a,
+    .wp-block-latest-posts__post-title,
+    main a {
+      color: #0d3c61 !important;
+    }
+    
+    /* Exception: Header, footer, and navigation links stay white */
+    .site-header a,
+    .site-footer a,
+    .main-nav > a,
+    .nav-link,
+    .dropdown-content a,
+    .site-title a,
+    .header-content a {
+      color: #fff !important;
+    }
+    
+    .site-title a:hover,
+    .main-nav > a:hover,
+    .dropdown-content a:hover {
+      color: #fff !important;
+    }
     
     img { max-width: 100%; height: auto; }
     
@@ -111,7 +143,7 @@ if (seo.schema?.raw) {
     }
 
     .main-nav > a {
-      color: #fff;
+      color: #fff !important;
       padding: 0.5rem 1rem;
       text-decoration: none;
       font-weight: 500;
@@ -120,6 +152,7 @@ if (seo.schema?.raw) {
     .main-nav > a:hover {
       background: rgba(255, 255, 255, 0.1);
       border-radius: 4px;
+      text-decoration: none;
     }
 
     /* Dropdown */
@@ -129,7 +162,7 @@ if (seo.schema?.raw) {
     }
 
     .nav-link {
-      color: #fff;
+      color: #fff !important;
       background: none;
       border: none;
       padding: 0.5rem 1rem;
@@ -156,7 +189,7 @@ if (seo.schema?.raw) {
     }
 
     .dropdown-content a {
-      color: #fff;
+      color: #fff !important;
       padding: 12px 16px;
       text-decoration: none;
       display: block;
@@ -164,6 +197,7 @@ if (seo.schema?.raw) {
 
     .dropdown-content a:hover {
       background-color: #2c3e50;
+      text-decoration: none;
     }
 
     .nav-dropdown:hover .dropdown-content {
@@ -220,7 +254,7 @@ if (seo.schema?.raw) {
     }
 
     .site-title a {
-      color: #fff;
+      color: #fff !important;
       text-decoration: none;
     }
 
