@@ -22,3 +22,9 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# style guide folder (not included in git)
+style-guide/
+
+# handbook content folder (PDF development)
+handbook/
