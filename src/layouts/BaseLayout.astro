@@ -294,14 +294,21 @@ if (seo.schema?.raw) {
     }
   </style>
   
-  <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SQ8227MMLV"></script>
-  <script is:inline>
+  <!-- Google Analytics - Ultra Deferred -->
+<script>
+  // Load GA only after page is fully interactive
+  window.addEventListener('load', function() {
+    var script = document.createElement('script');
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=G-SQ8227MMLV';
+    script.async = true;
+    document.head.appendChild(script);
+    
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-SQ8227MMLV');
-  </script>
+  });
+</script>
 </head>
 <body>
   <header class="site-header">
