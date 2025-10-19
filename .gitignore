@@ -28,3 +28,22 @@ style-guide/
 
 # handbook content folder (PDF development)
 handbook/
+
+# Generated PDF files
+*.pdf
+The_Ultimate_Handbook_of_Astro_Love*.pdf
+
+# PDF generation scripts
+create_astro_love_pdf.py
+create_astro_love_pdf_enhanced.py
+create_astro_love_pdf_final.py
+create_astro_love_pdf_fixed.py
+create_zodiac_booklets.py
+
+# Image generation scripts and outputs
+create_storefront_images.py
+create_storefront_images_simple.py
+storefront_*.png
+
+# Product descriptions file
+product_descriptions.txt

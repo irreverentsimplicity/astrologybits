@@ -6,7 +6,8 @@ export function makeLinksRelative(content) {
     // Fix internal page links (but NOT images)
     .replace(/href=["']https?:\/\/astrologybits\.com\//g, 'href="/')
     .replace(/href=["']https?:\/\/www\.astrologybits\.com\//g, 'href="/')
-    .replace(/href=["']https?:\/\/localhost(:\d+)?\//g, 'href="/');
-  
-  // Images stay on WordPress server - don't change src attributes
+    .replace(/href=["']https?:\/\/localhost(:\d+)?\//g, 'href="/')
+    // Update image URLs to use wp.astrologybits.com
+    .replace(/src=["'](https?:\/\/)?astrologybits\.com\//g, 'src="https://wp.astrologybits.com/')
+    .replace(/src=["'](https?:\/\/)?www\.astrologybits\.com\//g, 'src="https://wp.astrologybits.com/');
 }
