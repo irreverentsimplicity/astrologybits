@@ -159,6 +159,7 @@ if (seo.schema?.raw) {
     .nav-dropdown {
       position: relative;
       display: inline-block;
+      padding: 0; /* Remove any padding that might create gaps */
     }
 
     .nav-link {
@@ -176,6 +177,16 @@ if (seo.schema?.raw) {
       background: rgba(255, 255, 255, 0.1);
       border-radius: 4px;
     }
+    
+    /* Keep dropdown open when hovering over the gap */
+    .nav-dropdown::before {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      height: 10px; /* Invisible bridge to prevent dropdown from closing */
+    }
 
     .dropdown-content {
       display: none;
@@ -185,7 +196,8 @@ if (seo.schema?.raw) {
       box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
       z-index: 1;
       border-radius: 4px;
-      margin-top: 0.25rem;
+      margin-top: 0; /* Remove gap */
+      top: 100%; /* Position directly below the button */
     }
 
     .dropdown-content a {
@@ -193,6 +205,8 @@ if (seo.schema?.raw) {
       padding: 12px 16px;
       text-decoration: none;
       display: block;
+      font-size: 0.95rem; /* Slightly smaller for better hierarchy */
+      transition: background-color 0.2s ease; /* Smooth hover transition */
     }
 
     .dropdown-content a:hover {
@@ -200,7 +214,17 @@ if (seo.schema?.raw) {
       text-decoration: none;
     }
 
-    .nav-dropdown:hover .dropdown-content {
+    .dropdown-content a:first-child {
+      border-radius: 4px 4px 0 0;
+    }
+
+    .dropdown-content a:last-child {
+      border-radius: 0 0 4px 4px;
+    }
+
+    /* Show dropdown on hover and keep it stable */
+    .nav-dropdown:hover .dropdown-content,
+    .nav-dropdown:focus-within .dropdown-content {
       display: block;
     }
 
