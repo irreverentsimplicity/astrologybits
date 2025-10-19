@@ -1,0 +1,228 @@
+---
+interface Props {
+  page: any;
+}
+
+const { page } = Astro.props;
+
+interface BreadcrumbItem {
+  name: string;
+  url?: string;
+  position: number;
+}
+
+// Function to extract breadcrumbs from WordPress schema data
+function extractWordPressBreadcrumbs(page: any): BreadcrumbItem[] | null {
+  try {
+    // Look for schema markup in the page
+    const seo = page.seo || {};
+    if (seo.schema && seo.schema.raw) {
+      const schema = JSON.parse(seo.schema.raw);
+      
+      // Handle both single schema object and array of schemas
+      const schemas = Array.isArray(schema['@graph']) ? schema['@graph'] : [schema];
+      
+      // Find BreadcrumbList schema
+      const breadcrumbSchema = schemas.find((s: any) => s['@type'] === 'BreadcrumbList');
+      
+      if (breadcrumbSchema && breadcrumbSchema.itemListElement) {
+        return breadcrumbSchema.itemListElement.map((item: any) => ({
+          name: item.name,
+          url: item.item ? item.item.replace(/https?:\/\/(wp\.)?astrologybits\.com/, '') : undefined,
+          position: item.position
+        }));
+      }
+    }
+  } catch (e) {
+    console.warn('Could not extract WordPress breadcrumbs:', e);
+  }
+  return null;
+}
+
+// Function to generate breadcrumbs from URL path
+function generateBreadcrumbsFromUrl(uri: string): BreadcrumbItem[] {
+  if (!uri || uri === '/') {
+    return [{ name: 'Home', url: '/', position: 1 }];
+  }
+
+  const segments = uri.split('/').filter(segment => segment.length > 0);
+  const breadcrumbs: BreadcrumbItem[] = [
+    { name: 'Home', url: '/', position: 1 }
+  ];
+
+  // URL path mappings for better names
+  const pathMappings: Record<string, string> = {
+    'astrological-signs': 'Astrological Signs',
+    'astrological-houses': 'Astrological Houses', 
+    'planets-in-astrology': 'Planets in Astrology',
+    'the-astrology-of-love': 'The Astrology of Love',
+    'aries': 'Aries',
+    'taurus': 'Taurus',
+    'gemini': 'Gemini',
+    'cancer': 'Cancer',
+    'leo': 'Leo',
+    'virgo': 'Virgo',
+    'libra': 'Libra',
+    'scorpio': 'Scorpio',
+    'sagittarius': 'Sagittarius',
+    'capricorn': 'Capricorn',
+    'aquarius': 'Aquarius',
+    'pisces': 'Pisces',
+    'sun': 'Sun',
+    'moon': 'Moon',
+    'mercury': 'Mercury',
+    'venus': 'Venus',
+    'mars': 'Mars',
+    'jupiter': 'Jupiter',
+    'saturn': 'Saturn',
+    'uranus': 'Uranus',
+    'neptune': 'Neptune',
+    'pluto': 'Pluto',
+    'first-house': 'First House',
+    'second-house': 'Second House',
+    'third-house': 'Third House',
+    'fourth-house': 'Fourth House',
+    'fifth-house': 'Fifth House',
+    'sixth-house': 'Sixth House',
+    'seventh-house': 'Seventh House',
+    'eighth-house': 'Eighth House',
+    'ninth-house': 'Ninth House',
+    'tenth-house': 'Tenth House',
+    'eleventh-house': 'Eleventh House',
+    'twelfth-house': 'Twelfth House',
+    'aries-love': 'Aries Love',
+    'taurus-love': 'Taurus Love',
+    'gemini-love': 'Gemini Love',
+    'cancer-love': 'Cancer Love',
+    'leo-love': 'Leo Love',
+    'virgo-love': 'Virgo Love',
+    'libra-love': 'Libra Love',
+    'scorpio-love': 'Scorpio Love',
+    'sagittarius-love': 'Sagittarius Love',
+    'capricorn-love': 'Capricorn Love',
+    'aquarius-love': 'Aquarius Love',
+    'pisces-love': 'Pisces Love'
+  };
+
+  // Build breadcrumb path
+  let currentPath = '';
+  segments.forEach((segment, index) => {
+    currentPath += '/' + segment;
+    
+    let name = pathMappings[segment] || segment.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+    
+    // Special handling for Saturn in signs pattern
+    if (segment.startsWith('saturn-in-')) {
+      const sign = segment.replace('saturn-in-', '');
+      const signName = pathMappings[sign] || sign.charAt(0).toUpperCase() + sign.slice(1);
+      name = `Saturn in ${signName}`;
+    }
+    
+    breadcrumbs.push({
+      name,
+      url: index === segments.length - 1 ? undefined : currentPath, // Last item has no URL
+      position: index + 2
+    });
+  });
+
+  return breadcrumbs;
+}
+
+// Get breadcrumbs using hybrid approach
+let breadcrumbs: BreadcrumbItem[] = [];
+
+// Try WordPress data first
+const wpBreadcrumbs = extractWordPressBreadcrumbs(page);
+if (wpBreadcrumbs && wpBreadcrumbs.length > 0) {
+  breadcrumbs = wpBreadcrumbs;
+} else {
+  // Fallback to URL-based generation
+  breadcrumbs = generateBreadcrumbsFromUrl(page.uri || '/');
+}
+
+// Don't show breadcrumbs on homepage or if only one item
+const showBreadcrumbs = breadcrumbs.length > 1;
+---
+
+{showBreadcrumbs && (
+  <nav aria-label="Breadcrumb" class="breadcrumb-nav">
+    <ol class="breadcrumb-list">
+      {breadcrumbs.map((item, index) => (
+        <li class="breadcrumb-item">
+          {item.url ? (
+            <a href={item.url} class="breadcrumb-link">{item.name}</a>
+          ) : (
+            <span class="breadcrumb-current">{item.name}</span>
+          )}
+          {index < breadcrumbs.length - 1 && (
+            <span class="breadcrumb-separator" aria-hidden="true">›</span>
+          )}
+        </li>
+      ))}
+    </ol>
+  </nav>
+)}
+
+<style>
+  .breadcrumb-nav {
+    margin: 1.5rem 0;
+    padding: 0.75rem 1rem;
+    background: #f8f9fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+    font-size: 0.875rem;
+  }
+
+  .breadcrumb-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 0.5rem;
+  }
+
+  .breadcrumb-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .breadcrumb-link {
+    color: #6b7280 !important;
+    text-decoration: none !important;
+    transition: color 0.2s ease;
+  }
+
+  .breadcrumb-link:hover,
+  .breadcrumb-link:focus {
+    color: #0066cc !important;
+    text-decoration: underline !important;
+  }
+
+  .breadcrumb-current {
+    color: #374151;
+    font-weight: 500;
+  }
+
+  .breadcrumb-separator {
+    color: #9ca3af;
+    font-weight: normal;
+    user-select: none;
+  }
+
+  @media (max-width: 640px) {
+    .breadcrumb-nav {
+      font-size: 0.8rem;
+    }
+    
+    .breadcrumb-list {
+      gap: 0.25rem;
+    }
+    
+    .breadcrumb-item {
+      gap: 0.25rem;
+    }
+  }
+</style>

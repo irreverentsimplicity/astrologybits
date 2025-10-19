@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
 import { getAllPages, getAllPosts, getSlugFromUri } from '../lib/wordpress';
 import { makeLinksRelative } from '../lib/utils';
 
@@ -30,8 +31,14 @@ const processedContent = makeLinksRelative(page.content);
 ---
 
 <BaseLayout page={page}>
+  <!-- Breadcrumb above content -->
+  <Breadcrumb page={page} />
+  
   <article class="wp-content">
     <h1 set:html={page.title} />
     <div set:html={processedContent} />
   </article>
+  
+  <!-- Breadcrumb below content -->
+  <Breadcrumb page={page} />
 </BaseLayout>

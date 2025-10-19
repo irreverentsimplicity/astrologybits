@@ -3,8 +3,8 @@ export function makeLinksRelative(content) {
   if (!content) return '';
   
   let processed = content
-    // Fix internal page links (but NOT images)
-    .replace(/href=["']https?:\/\/astrologybits\.com\//g, 'href="/')
+    // Fix internal page links (but NOT images) - convert WordPress URLs to static site URLs
+    .replace(/href=["']https?:\/\/(wp\.)?astrologybits\.com\//g, 'href="/')
     .replace(/href=["']https?:\/\/www\.astrologybits\.com\//g, 'href="/')
     .replace(/href=["']https?:\/\/localhost(:\d+)?\//g, 'href="/')
     // Update image URLs to use wp.astrologybits.com

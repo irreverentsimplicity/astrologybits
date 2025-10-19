@@ -1,0 +1,153 @@
+---
+interface Props {
+  page: any;
+}
+
+const { page } = Astro.props;
+
+interface BreadcrumbItem {
+  name: string;
+  url?: string;
+  position: number;
+}
+
+// Function to extract breadcrumbs from WordPress schema data
+function extractWordPressBreadcrumbs(page: any): BreadcrumbItem[] | null {
+  try {
+    const seo = page.seo || {};
+    if (seo.schema && seo.schema.raw) {
+      const schema = JSON.parse(seo.schema.raw);
+      const schemas = Array.isArray(schema['@graph']) ? schema['@graph'] : [schema];
+      const breadcrumbSchema = schemas.find((s: any) => s['@type'] === 'BreadcrumbList');
+      
+      if (breadcrumbSchema && breadcrumbSchema.itemListElement) {
+        return breadcrumbSchema.itemListElement.map((item: any) => ({
+          name: item.name,
+          url: item.item ? item.item.replace(/https?:\/\/(wp\.)?astrologybits\.com/, 'https://astrologybits.com') : undefined,
+          position: item.position
+        }));
+      }
+    }
+  } catch (e) {
+    console.warn('Could not extract WordPress breadcrumbs:', e);
+  }
+  return null;
+}
+
+// Function to generate breadcrumbs from URL path (same as in Breadcrumb.astro)
+function generateBreadcrumbsFromUrl(uri: string): BreadcrumbItem[] {
+  if (!uri || uri === '/') {
+    return [{ name: 'Home', url: 'https://astrologybits.com/', position: 1 }];
+  }
+
+  const segments = uri.split('/').filter(segment => segment.length > 0);
+  const breadcrumbs: BreadcrumbItem[] = [
+    { name: 'Home', url: 'https://astrologybits.com/', position: 1 }
+  ];
+
+  const pathMappings: Record<string, string> = {
+    'astrological-signs': 'Astrological Signs',
+    'astrological-houses': 'Astrological Houses', 
+    'planets-in-astrology': 'Planets in Astrology',
+    'the-astrology-of-love': 'The Astrology of Love',
+    'aries': 'Aries',
+    'taurus': 'Taurus',
+    'gemini': 'Gemini',
+    'cancer': 'Cancer',
+    'leo': 'Leo',
+    'virgo': 'Virgo',
+    'libra': 'Libra',
+    'scorpio': 'Scorpio',
+    'sagittarius': 'Sagittarius',
+    'capricorn': 'Capricorn',
+    'aquarius': 'Aquarius',
+    'pisces': 'Pisces',
+    'sun': 'Sun',
+    'moon': 'Moon',
+    'mercury': 'Mercury',
+    'venus': 'Venus',
+    'mars': 'Mars',
+    'jupiter': 'Jupiter',
+    'saturn': 'Saturn',
+    'uranus': 'Uranus',
+    'neptune': 'Neptune',
+    'pluto': 'Pluto',
+    'first-house': 'First House',
+    'second-house': 'Second House',
+    'third-house': 'Third House',
+    'fourth-house': 'Fourth House',
+    'fifth-house': 'Fifth House',
+    'sixth-house': 'Sixth House',
+    'seventh-house': 'Seventh House',
+    'eighth-house': 'Eighth House',
+    'ninth-house': 'Ninth House',
+    'tenth-house': 'Tenth House',
+    'eleventh-house': 'Eleventh House',
+    'twelfth-house': 'Twelfth House',
+    'aries-love': 'Aries Love',
+    'taurus-love': 'Taurus Love',
+    'gemini-love': 'Gemini Love',
+    'cancer-love': 'Cancer Love',
+    'leo-love': 'Leo Love',
+    'virgo-love': 'Virgo Love',
+    'libra-love': 'Libra Love',
+    'scorpio-love': 'Scorpio Love',
+    'sagittarius-love': 'Sagittarius Love',
+    'capricorn-love': 'Capricorn Love',
+    'aquarius-love': 'Aquarius Love',
+    'pisces-love': 'Pisces Love'
+  };
+
+  let currentPath = '';
+  segments.forEach((segment, index) => {
+    currentPath += '/' + segment;
+    
+    let name = pathMappings[segment] || segment.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+    
+    if (segment.startsWith('saturn-in-')) {
+      const sign = segment.replace('saturn-in-', '');
+      const signName = pathMappings[sign] || sign.charAt(0).toUpperCase() + sign.slice(1);
+      name = `Saturn in ${signName}`;
+    }
+    
+    breadcrumbs.push({
+      name,
+      url: `https://astrologybits.com${currentPath}`,
+      position: index + 2
+    });
+  });
+
+  return breadcrumbs;
+}
+
+// Get breadcrumbs using hybrid approach
+let breadcrumbs: BreadcrumbItem[] = [];
+
+// Try WordPress data first
+const wpBreadcrumbs = extractWordPressBreadcrumbs(page);
+if (wpBreadcrumbs && wpBreadcrumbs.length > 0) {
+  breadcrumbs = wpBreadcrumbs;
+} else {
+  // Fallback to URL-based generation
+  breadcrumbs = generateBreadcrumbsFromUrl(page.uri || '/');
+}
+
+// Generate schema only if we have breadcrumbs and it's not homepage
+const shouldGenerateSchema = breadcrumbs.length > 1;
+
+// Create the breadcrumb schema
+const breadcrumbSchema = shouldGenerateSchema ? {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": breadcrumbs.map((item, index) => ({
+    "@type": "ListItem",
+    "position": item.position,
+    "name": item.name,
+    ...(item.url && { "item": item.url })
+  }))
+} : null;
+---
+
+{breadcrumbSchema && (
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+)}
