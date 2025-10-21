@@ -1,0 +1,3 @@
+# IMPORTANT: Redirect www to non-www
+https://www.astrologybits.com/* https://astrologybits.com/:splat 301
+http://www.astrologybits.com/* https://astrologybits.com/:splat 301
