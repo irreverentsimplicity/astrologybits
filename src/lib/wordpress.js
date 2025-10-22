@@ -117,6 +117,22 @@ export async function getAllPosts() {
           excerpt
           date
           modified
+          featuredImage {
+            node {
+              sourceUrl
+              altText
+              mediaDetails {
+                width
+                height
+                sizes {
+                  name
+                  sourceUrl
+                  width
+                  height
+                }
+              }
+            }
+          }
           seo {
             title
             metaDesc

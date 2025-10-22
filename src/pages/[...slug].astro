@@ -28,6 +28,25 @@ export async function getStaticPaths() {
 
 const { page } = Astro.props;
 const processedContent = makeLinksRelative(page.content);
+
+// Check if this is a blog post (has date property)
+const isPost = !!page.date;
+
+function getFeaturedImage(page) {
+  return page.featuredImage?.node?.sourceUrl || null;
+}
+
+function getFeaturedImageAlt(page) {
+  return page.featuredImage?.node?.altText || page.title || 'Blog post image';
+}
+
+function formatDate(dateString) {
+  return new Date(dateString).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+}
 ---
 
 <BaseLayout page={page}>
@@ -36,9 +55,68 @@ const processedContent = makeLinksRelative(page.content);
   
   <article class="wp-content">
     <h1 set:html={page.title} />
+    
+    {isPost && page.date && (
+      <div class="post-meta">
+        <time class="post-date" datetime={page.date}>
+          {formatDate(page.date)}
+        </time>
+      </div>
+    )}
+    
+    {isPost && getFeaturedImage(page) && (
+      <div class="hero-image-container">
+        <img 
+          src={getFeaturedImage(page)} 
+          alt={getFeaturedImageAlt(page)}
+          class="hero-image"
+        />
+      </div>
+    )}
+    
     <div set:html={processedContent} />
   </article>
   
   <!-- Breadcrumb below content -->
   <Breadcrumb page={page} />
+
+  <style>
+    .post-meta {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #e1e5e9;
+    }
+
+    .post-date {
+      font-size: 1rem;
+      color: #5a6c7d;
+      font-weight: 500;
+    }
+
+    .hero-image-container {
+      margin: 2rem 0;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .hero-image {
+      width: 100%;
+      height: auto;
+      max-height: 400px;
+      object-fit: cover;
+      display: block;
+    }
+
+    @media (max-width: 640px) {
+      .hero-image-container {
+        margin: 1.5rem 0;
+        border-radius: 6px;
+      }
+      
+      .hero-image {
+        max-height: 250px;
+      }
+    }
+  </style>
 </BaseLayout>
