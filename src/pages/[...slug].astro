@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumb from '../components/Breadcrumb.astro';
 import { getAllPages, getAllPosts, getSlugFromUri } from '../lib/wordpress';
-import { makeLinksRelative } from '../lib/utils';
+import { makeLinksRelative, cleanCanonicalUrl, updateWordPressImageUrls } from '../lib/utils';
 
 export async function getStaticPaths() {
   const [pages, posts] = await Promise.all([
@@ -33,7 +33,7 @@ const processedContent = makeLinksRelative(page.content);
 const isPost = !!page.date;
 
 function getFeaturedImage(page) {
-  return page.featuredImage?.node?.sourceUrl || null;
+  return updateWordPressImageUrls(page.featuredImage?.node?.sourceUrl) || null;
 }
 
 function getFeaturedImageAlt(page) {

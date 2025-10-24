@@ -1,5 +1,6 @@
 ---
 import BreadcrumbSchema from '../components/BreadcrumbSchema.astro';
+import { cleanCanonicalUrl, updateWordPressImageUrls, cleanSchemaMarkup } from '../lib/utils';
 
 interface Props {
   page: any;
@@ -23,20 +24,13 @@ const description = seo.metaDesc ||
     : 'Explore astrology insights and love compatibility scores at Astrology Bits.'
   );
 
-const canonical = seo.canonical || `https://astrologybits.com${page.uri}`;
+const canonical = cleanCanonicalUrl(seo.canonical) || `https://astrologybits.com${page.uri}`;
 const ogTitle = seo.opengraphTitle || title;
 const ogDescription = seo.opengraphDescription || description;
-const ogImage = seo.opengraphImage?.sourceUrl || null;
+const ogImage = updateWordPressImageUrls(seo.opengraphImage?.sourceUrl) || null;
 
-// Parse schema markup
-let schemaMarkup = null;
-if (seo.schema?.raw) {
-  try {
-    schemaMarkup = JSON.parse(seo.schema.raw);
-  } catch (e) {
-    console.warn('Could not parse schema markup');
-  }
-}
+// Parse and clean schema markup
+const schemaMarkup = cleanSchemaMarkup(seo.schema?.raw);
 ---
 
 <!DOCTYPE html>

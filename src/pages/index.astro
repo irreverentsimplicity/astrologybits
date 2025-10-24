@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getAllPages, getAllPosts } from '../lib/wordpress';
-import { makeLinksRelative } from '../lib/utils';
+import { makeLinksRelative, updateWordPressImageUrls } from '../lib/utils';
 
 const pages = await getAllPages();
 const posts = await getAllPosts();
@@ -36,7 +36,7 @@ function getExcerpt(content, length = 120) {
 }
 
 function getFeaturedImage(post) {
-  return post.featuredImage?.node?.sourceUrl || null;
+  return updateWordPressImageUrls(post.featuredImage?.node?.sourceUrl) || null;
 }
 
 function getFeaturedImageAlt(post) {
