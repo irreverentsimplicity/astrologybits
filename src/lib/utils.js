@@ -82,3 +82,29 @@ export function cleanSchemaMarkup(schemaString) {
     return null;
   }
 }
+
+// Clean and validate internal URLs for consistent format
+export function cleanInternalUrl(url) {
+  if (!url) return '/';
+  
+  // Remove any absolute domain parts
+  let cleanUrl = url
+    .replace(/^https?:\/\/(wp\.)?astrologybits\.com\//g, '/')
+    .replace(/^https?:\/\/www\.astrologybits\.com\//g, '/')
+    .replace(/^https?:\/\/localhost(:\d+)?\//g, '/');
+  
+  // Ensure URL starts with /
+  if (!cleanUrl.startsWith('/')) {
+    cleanUrl = '/' + cleanUrl;
+  }
+  
+  // Ensure trailing slash for non-file URLs (unless it's root or has an extension)
+  if (cleanUrl !== '/' && !cleanUrl.includes('.') && !cleanUrl.endsWith('/')) {
+    cleanUrl += '/';
+  }
+  
+  // Remove double slashes
+  cleanUrl = cleanUrl.replace(/\/+/g, '/');
+  
+  return cleanUrl;
+}

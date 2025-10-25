@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getAllPosts } from '../lib/wordpress';
-import { makeLinksRelative, updateWordPressImageUrls } from '../lib/utils';
+import { makeLinksRelative, updateWordPressImageUrls, cleanInternalUrl } from '../lib/utils';
 
 const posts = await getAllPosts();
 
@@ -53,7 +53,7 @@ function getFeaturedImageAlt(post) {
       <article class="post-card">
         {getFeaturedImage(post) && (
           <div class="post-image-container">
-            <a href={post.uri} class="post-image-link">
+            <a href={cleanInternalUrl(post.uri)} class="post-image-link">
               <img 
                 src={getFeaturedImage(post)} 
                 alt={getFeaturedImageAlt(post)}
@@ -65,13 +65,13 @@ function getFeaturedImageAlt(post) {
         )}
         <div class="post-card-content">
           <h2 class="post-card-title">
-            <a href={post.uri}>{post.title}</a>
+            <a href={cleanInternalUrl(post.uri)}>{post.title}</a>
           </h2>
           <time class="post-date" datetime={post.date}>
             {formatDate(post.date)}
           </time>
           <p class="post-excerpt">{getExcerpt(post.excerpt || post.content)}</p>
-          <a href={post.uri} class="read-more">Read More →</a>
+          <a href={cleanInternalUrl(post.uri)} class="read-more">Read More →</a>
         </div>
       </article>
     ))}

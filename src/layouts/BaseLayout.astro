@@ -328,7 +328,7 @@ const schemaMarkup = cleanSchemaMarkup(seo.schema?.raw);
   </style>
   
   <!-- Google Analytics - Ultra Deferred -->
-<script>
+<script is:inline>
   // Load GA only after page is fully interactive
   window.addEventListener('load', function() {
     var script = document.createElement('script');
@@ -337,7 +337,7 @@ const schemaMarkup = cleanSchemaMarkup(seo.schema?.raw);
     document.head.appendChild(script);
     
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    function gtag(){window.dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-SQ8227MMLV');
   });
@@ -361,89 +361,89 @@ const schemaMarkup = cleanSchemaMarkup(seo.schema?.raw);
           <a href="/astrological-signs/aries/" role="menuitem">Aries</a>
           <a href="/astrological-signs/taurus/">Taurus</a>
           <a href="/astrological-signs/gemini/">Gemini</a>
-          <a href="/astrological-signs/cancer">Cancer</a>
-          <a href="/astrological-signs/leo">Leo</a>
-          <a href="/astrological-signs/virgo">Virgo</a>
-          <a href="/astrological-signs/libra">Libra</a>
-          <a href="/astrological-signs/scorpio">Scorpio</a>
-          <a href="/astrological-signs/sagittarius">Sagittarius</a>
-          <a href="/astrological-signs/capricorn">Capricorn</a>
-          <a href="/astrological-signs/aquarius">Aquarius</a>
-          <a href="/astrological-signs/pisces">Pisces</a>
+          <a href="/astrological-signs/cancer/">Cancer</a>
+          <a href="/astrological-signs/leo/">Leo</a>
+          <a href="/astrological-signs/virgo/">Virgo</a>
+          <a href="/astrological-signs/libra/">Libra</a>
+          <a href="/astrological-signs/scorpio/">Scorpio</a>
+          <a href="/astrological-signs/sagittarius/">Sagittarius</a>
+          <a href="/astrological-signs/capricorn/">Capricorn</a>
+          <a href="/astrological-signs/aquarius/">Aquarius</a>
+          <a href="/astrological-signs/pisces/">Pisces</a>
         </div>
       </div>
       
       <div class="nav-dropdown">
         <button class="nav-link" aria-label="Houses menu" aria-expanded="false" aria-haspopup="true">Houses ▾</button>
         <div class="dropdown-content" role="menu">
-          <a href="/astrological-houses/first-house">First House</a>
-          <a href="/astrological-houses/second-house">Second House</a>
-          <a href="/astrological-houses/third-house">Third House</a>
-          <a href="/astrological-houses/fourth-house">Fourth House</a>
-          <a href="/astrological-houses/fifth-house">Fifth House</a>
-          <a href="/astrological-houses/sixth-house">Sixth House</a>
-          <a href="/astrological-houses/seventh-house">Seventh House</a>
-          <a href="/astrological-houses/eighth-house">Eighth House</a>
-          <a href="/astrological-houses/ninth-house">Ninth House</a>
-          <a href="/astrological-houses/tenth-house">Tenth House</a>
-          <a href="/astrological-houses/eleventh-house">Eleventh House</a>
-          <a href="/astrological-houses/twelfth-house">Twelfth House</a>
+          <a href="/astrological-houses/first-house/">First House</a>
+          <a href="/astrological-houses/second-house/">Second House</a>
+          <a href="/astrological-houses/third-house/">Third House</a>
+          <a href="/astrological-houses/fourth-house/">Fourth House</a>
+          <a href="/astrological-houses/fifth-house/">Fifth House</a>
+          <a href="/astrological-houses/sixth-house/">Sixth House</a>
+          <a href="/astrological-houses/seventh-house/">Seventh House</a>
+          <a href="/astrological-houses/eighth-house/">Eighth House</a>
+          <a href="/astrological-houses/ninth-house/">Ninth House</a>
+          <a href="/astrological-houses/tenth-house/">Tenth House</a>
+          <a href="/astrological-houses/eleventh-house/">Eleventh House</a>
+          <a href="/astrological-houses/twelfth-house/">Twelfth House</a>
         </div>
       </div>
       
       <div class="nav-dropdown">
         <button class="nav-link" aria-label="Planets menu" aria-expanded="false" aria-haspopup="true">Planets ▾</button>
         <div class="dropdown-content" role="menu">
-          <a href="/planets-in-astrology/sun">Sun</a>
-          <a href="/planets-in-astrology/moon">Moon</a>
-          <a href="/planets-in-astrology/mercury">Mercury</a>
-          <a href="/planets-in-astrology/venus">Venus</a>
-          <a href="/planets-in-astrology/mars">Mars</a>
-          <a href="/planets-in-astrology/jupiter">Jupiter</a>
-          <a href="/planets-in-astrology/saturn">Saturn</a>
-          <a href="/planets-in-astrology/uranus">Uranus</a>
-          <a href="/planets-in-astrology/neptune">Neptune</a>
-          <a href="/planets-in-astrology/pluto">Pluto</a>
+          <a href="/planets-in-astrology/sun/">Sun</a>
+          <a href="/planets-in-astrology/moon/">Moon</a>
+          <a href="/planets-in-astrology/mercury/">Mercury</a>
+          <a href="/planets-in-astrology/venus/">Venus</a>
+          <a href="/planets-in-astrology/mars/">Mars</a>
+          <a href="/planets-in-astrology/jupiter/">Jupiter</a>
+          <a href="/planets-in-astrology/saturn/">Saturn</a>
+          <a href="/planets-in-astrology/uranus/">Uranus</a>
+          <a href="/planets-in-astrology/neptune/">Neptune</a>
+          <a href="/planets-in-astrology/pluto/">Pluto</a>
         </div>
       </div>
       
       <div class="nav-dropdown">
         <button class="nav-link" aria-label="Love menu" aria-expanded="false" aria-haspopup="true">Love ▾</button>
         <div class="dropdown-content" role="menu">
-          <a href="/the-astrology-of-love/aries-love">Aries Love</a>
-          <a href="/the-astrology-of-love/taurus-love">Taurus Love</a>
-          <a href="/the-astrology-of-love/gemini-love">Gemini Love</a>
-          <a href="/the-astrology-of-love/cancer-love">Cancer Love</a>
-          <a href="/the-astrology-of-love/leo-love">Leo Love</a>
-          <a href="/the-astrology-of-love/virgo-love">Virgo Love</a>
-          <a href="/the-astrology-of-love/libra-love">Libra Love</a>
-          <a href="/the-astrology-of-love/scorpio-love">Scorpio Love</a>
-          <a href="/the-astrology-of-love/sagittarius-love">Sagittarius Love</a>
-          <a href="/the-astrology-of-love/capricorn-love">Capricorn Love</a>
-          <a href="/the-astrology-of-love/aquarius-love">Aquarius Love</a>
-          <a href="/the-astrology-of-love/pisces-love">Pisces Love</a>
+          <a href="/the-astrology-of-love/aries-love/">Aries Love</a>
+          <a href="/the-astrology-of-love/taurus-love/">Taurus Love</a>
+          <a href="/the-astrology-of-love/gemini-love/">Gemini Love</a>
+          <a href="/the-astrology-of-love/cancer-love/">Cancer Love</a>
+          <a href="/the-astrology-of-love/leo-love/">Leo Love</a>
+          <a href="/the-astrology-of-love/virgo-love/">Virgo Love</a>
+          <a href="/the-astrology-of-love/libra-love/">Libra Love</a>
+          <a href="/the-astrology-of-love/scorpio-love/">Scorpio Love</a>
+          <a href="/the-astrology-of-love/sagittarius-love/">Sagittarius Love</a>
+          <a href="/the-astrology-of-love/capricorn-love/">Capricorn Love</a>
+          <a href="/the-astrology-of-love/aquarius-love/">Aquarius Love</a>
+          <a href="/the-astrology-of-love/pisces-love/">Pisces Love</a>
         </div>
       </div>
     </nav>
   </header>
   
-  <script>
+  <script is:inline>
     // Accessibility: Toggle aria-expanded on dropdown buttons
-    document.querySelectorAll('.nav-link').forEach(button => {
-      button.addEventListener('click', () => {
-        const expanded = button.getAttribute('aria-expanded') === 'true';
-        button.setAttribute('aria-expanded', !expanded);
+    document.querySelectorAll('.nav-link').forEach(function(button) {
+      button.addEventListener('click', function() {
+        var expanded = button.getAttribute('aria-expanded') === 'true';
+        button.setAttribute('aria-expanded', String(!expanded));
       });
       
       // Close dropdown when clicking outside
-      document.addEventListener('click', (e) => {
-        if (!button.parentElement.contains(e.target)) {
+      document.addEventListener('click', function(e) {
+        if (button.parentElement && !button.parentElement.contains(e.target)) {
           button.setAttribute('aria-expanded', 'false');
         }
       });
       
       // Keyboard navigation
-      button.addEventListener('keydown', (e) => {
+      button.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
           button.setAttribute('aria-expanded', 'false');
           button.focus();
